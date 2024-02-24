@@ -71,7 +71,7 @@
                     @Html.DisplayFor(modelItem => item.Notes)
                 </td>
                 <td>
-                    @(item.CopiedToPlex ? "Yes" : "No")
+                    @Html.DisplayFor(modelItem => item.CopiedToPlex) == "1" ? "Yes" : "No"
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.MovieId">Edit</a> |

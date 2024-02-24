@@ -1,4 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.CodeAnalysis.Options;
+using Newtonsoft.Json.Linq;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection.Emit;
+using System.Text.RegularExpressions;
 
 namespace Mission06_Kherlenbayar.Models
 {
@@ -29,7 +33,8 @@ namespace Mission06_Kherlenbayar.Models
         public string? LentTo { get; set; }
 
         [Required]
-        public bool CopiedToPlex { get; set; } // Whether the movie is copied to Plex
+        public int CopiedToPlex { get; set; } // 0 for No, 1 for Yes
+
 
         [MaxLength(25)]
         public string? Notes { get; set; } // Additional notes about the movie
@@ -48,6 +53,4 @@ namespace Mission06_Kherlenbayar.Models
         // Navigation property for related Movies
         public ICollection<Movie> Movies { get; set; }
     }
-
-
 }

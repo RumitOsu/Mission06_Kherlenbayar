@@ -21,7 +21,8 @@ namespace Mission06_Kherlenbayar.Controllers
         // GET: Movies
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Movies.ToListAsync());
+            var movies = await _context.Movies.Include(m => m.Category).ToListAsync();
+            return View(movies);
         }
 
         // GET: Movies/Details/5
@@ -33,6 +34,7 @@ namespace Mission06_Kherlenbayar.Controllers
             }
 
             var movie = await _context.Movies
+                .Include(m => m.Category)
                 .FirstOrDefaultAsync(m => m.MovieId == id);
             if (movie == null)
             {
@@ -43,17 +45,20 @@ namespace Mission06_Kherlenbayar.Controllers
         }
 
         // GET: Movies/Create
+        // GET: Movies/Create
         public IActionResult Create()
         {
+            ViewBag.CategoryId = new SelectList(_context.Categories, "CategoryId", "CategoryName");
             return View();
         }
 
+
+
         // POST: Movies/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MovieId,Title,Director,Year,Rating,Edited,LentTo,Notes")] Movie movie)
+        public async Task<IActionResult> Create([Bind("MovieId,CategoryId,Title,Director,Year,Rating,Edited,LentTo,CopiedToPlex,Notes")] Movie movie)
         {
             if (ModelState.IsValid)
             {
@@ -61,6 +66,8 @@ namespace Mission06_Kherlenbayar.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            // If we got this far, something failed, redisplay form
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", movie.CategoryId);
             return View(movie);
         }
 
@@ -72,20 +79,23 @@ namespace Mission06_Kherlenbayar.Controllers
                 return NotFound();
             }
 
-            var movie = await _context.Movies.FindAsync(id);
+            var movie = await _context.Movies.Include(m => m.Category).FirstOrDefaultAsync(m => m.MovieId == id);
             if (movie == null)
             {
                 return NotFound();
             }
+            ViewBag.CategoryId = new SelectList(_context.Categories, "CategoryId", "CategoryName", movie.CategoryId);
             return View(movie);
         }
+
+
 
         // POST: Movies/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MovieId,Title,Director,Year,Rating,Edited,LentTo,Notes")] Movie movie)
+        public async Task<IActionResult> Edit(int id, [Bind("MovieId,CategoryId,Title,Director,Year,Rating,Edited,LentTo,CopiedToPlex,Notes")] Movie movie)
         {
             if (id != movie.MovieId)
             {
@@ -112,8 +122,10 @@ namespace Mission06_Kherlenbayar.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", movie.CategoryId);
             return View(movie);
         }
+
 
         // GET: Movies/Delete/5
         public async Task<IActionResult> Delete(int? id)

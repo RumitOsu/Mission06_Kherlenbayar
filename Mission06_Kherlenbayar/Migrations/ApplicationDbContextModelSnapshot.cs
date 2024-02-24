@@ -40,7 +40,7 @@ namespace Mission06_Kherlenbayar.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("CopiedToPlex")
+                    b.Property<int>("CopiedToPlex")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Director")
