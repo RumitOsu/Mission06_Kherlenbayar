@@ -7,7 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 // Configure Entity Framework Core with SQLite
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=MovieCollection.db";
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=C:\\Users\\timur\\source\\repos\\Mission07_Kherlenbayar\\Mission06_Kherlenbayar\\JoelHiltonMovieCollection.sqlite";
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString));
 
