@@ -47,9 +47,11 @@ namespace Mission07_Kherlenbayar.Controllers
         // GET: Movies/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId");
+            // Change the third parameter from "CategoryId" to "CategoryName"
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
             return View();
         }
+
 
         // POST: Movies/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -64,9 +66,11 @@ namespace Mission07_Kherlenbayar.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", movie.CategoryId);
+            // Change the third parameter from "CategoryId" to "CategoryName" and keep the last parameter to maintain the selected value
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", movie.CategoryId);
             return View(movie);
         }
+
 
         // GET: Movies/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -81,9 +85,11 @@ namespace Mission07_Kherlenbayar.Controllers
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", movie.CategoryId);
+            // Change the third parameter from "CategoryId" to "CategoryName"
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", movie.CategoryId);
             return View(movie);
         }
+
 
         // POST: Movies/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -117,9 +123,11 @@ namespace Mission07_Kherlenbayar.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", movie.CategoryId);
+            // Change the third parameter from "CategoryId" to "CategoryName"
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", movie.CategoryId);
             return View(movie);
         }
+
 
         // GET: Movies/Delete/5
         public async Task<IActionResult> Delete(int? id)
